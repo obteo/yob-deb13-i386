@@ -1,24 +1,33 @@
-FROM debian:bookworm
+FROM debian:13
+
+ENV DEBIAN_FRONTEND=noninteractive
 
 # ----------------------------------
-# Pterodactyl Core Dockerfile
-# Environment: Legacy Linux Games (i386)
+# Base + i386 support
 # ----------------------------------
-
 RUN dpkg --add-architecture i386 && \
-    apt-get update && apt-get install -y --no-install-recommends \
+    apt-get update && apt-get upgrade -y && \
+    apt-get install -y --no-install-recommends \
         bash \
-        curl \
         wget \
         ca-certificates \
-        tar \
-        git \
+        curl \
         libc6:i386 \
         libstdc++6:i386 \
-        lib32gcc-s1 && \
-    rm -rf /var/lib/apt/lists/*
+        dpkg \
+        && rm -rf /var/lib/apt/lists/*
 
-# Create container user (MANDATORY PTERODACTYL)
+# ----------------------------------
+# Legacy libstdc++5 (CoD2)
+# ----------------------------------
+RUN wget -O /tmp/libstdc++5.deb \
+    http://ftp.debian.org/debian/pool/main/g/gcc-3.3/libstdc++5_3.3.6-34_i386.deb && \
+    dpkg -i /tmp/libstdc++5.deb || apt-get install -f -y && \
+    rm -f /tmp/libstdc++5.deb
+
+# ----------------------------------
+# Pterodactyl user (MANDATORY)
+# ----------------------------------
 RUN useradd -m -d /home/container -s /bin/bash container
 
 USER container
@@ -26,7 +35,9 @@ ENV USER=container HOME=/home/container
 
 WORKDIR /home/container
 
-# Copy entrypoint (must be in image root)
+# ----------------------------------
+# Entrypoint
+# ----------------------------------
 COPY ./entrypoint.sh /entrypoint.sh
 
 CMD ["/bin/bash", "/entrypoint.sh"]
