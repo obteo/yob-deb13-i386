@@ -38,7 +38,6 @@ jobs:
           images: ${{ env.IMAGE_ID }}
           tags: |
             type=raw,value=latest
-            type=sha
 
       - name: Build and Push Image
         uses: docker/build-push-action@v6
