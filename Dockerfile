@@ -16,8 +16,8 @@ RUN dpkg --add-architecture i386 && \
         libstdc++6:i386 \
         lib32gcc-s1 \
         libcurl4:i386 \
-        libncurses5:i386 \
-        libtinfo5:i386 \
+        libncurses6:i386 \
+        libtinfo6:i386 \
         dpkg \
         && rm -rf /var/lib/apt/lists/*
         
