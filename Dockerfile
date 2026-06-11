@@ -14,9 +14,15 @@ RUN dpkg --add-architecture i386 && \
         curl \
         libc6:i386 \
         libstdc++6:i386 \
+        lib32gcc-s1 \
+        libcurl4:i386 \
+        libncurses5:i386 \
+        libtinfo5:i386 \
         dpkg \
         && rm -rf /var/lib/apt/lists/*
-
+        
+COPY libcxa.so.1 /usr/lib/i386-linux-gnu/libcxa.so.1
+RUN chmod 644 /usr/lib/i386-linux-gnu/libcxa.so.1
 # ----------------------------------
 # Legacy libstdc++5 (CoD2)
 # ----------------------------------
