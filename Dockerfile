@@ -6,20 +6,23 @@ ENV DEBIAN_FRONTEND=noninteractive
 # Base + i386 support
 # ----------------------------------
 RUN dpkg --add-architecture i386 && \
-    apt-get update && apt-get upgrade -y && \
+    apt-get update && \
     apt-get install -y --no-install-recommends \
         bash \
         wget \
-        ca-certificates \
         curl \
+        ca-certificates \
+        tar \
+        xz-utils \
         libc6:i386 \
         libstdc++6:i386 \
         lib32gcc-s1 \
         libcurl4:i386 \
         libncurses6:i386 \
         libtinfo6:i386 \
-        dpkg \
-        && rm -rf /var/lib/apt/lists/*
+        dpkg && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
         
 COPY libcxa.so.1 /usr/lib/i386-linux-gnu/libcxa.so.1
 RUN chmod 644 /usr/lib/i386-linux-gnu/libcxa.so.1
