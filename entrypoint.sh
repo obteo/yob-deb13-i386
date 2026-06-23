@@ -7,7 +7,7 @@ echo " Container starting..."
 echo "================================="
 
 # Output optional debug
-echo "Running on user: $(whoami)"
+echo "Running as UID $(id -u) GID $(id -g)"
 
 # Replace Startup Variables (Pterodactyl standard)
 MODIFIED_STARTUP=$(eval echo "$(echo ${STARTUP} | sed -e 's/{{/${/g' -e 's/}}/}/g')")
