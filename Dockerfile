@@ -29,9 +29,8 @@ RUN chmod 644 /usr/lib/i386-linux-gnu/libcxa.so.1
 # ----------------------------------
 # Legacy libstdc++5 (CoD2)
 # ----------------------------------
-RUN wget -O /tmp/libstdc++5.deb \
-    http://ftp.debian.org/debian/pool/main/g/gcc-3.3/libstdc++5_3.3.6-34_i386.deb && \
-    dpkg -i /tmp/libstdc++5.deb || apt-get install -f -y && \
+COPY libstdc++5_3.3.6-34_i386.deb /tmp/libstdc++5.deb
+RUN dpkg -i /tmp/libstdc++5.deb || apt-get install -f -y && \
     rm -f /tmp/libstdc++5.deb
 
 # ----------------------------------
